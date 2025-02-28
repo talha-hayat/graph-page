@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etch-a-Sketch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .controls {
+      margin: 20px;
+    }
+
+    #sketchPad {
+      display: grid;
+      width: 500px;
+      height: 500px;
+      margin: 0 auto;
+      border: 2px solid #000;
+    }
+
+    .grid-item {
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+
+    .grid-item:hover {
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Etch-a-Sketch</h1>
+  <div class="controls">
+    <button id="reset">Reset</button>
+    <label for="gridSize">Grid Size:</label>
+    <input type="number" id="gridSize" min="1" max="100" value="16">
+    <button id="apply">Apply</button>
+  </div>
+  <div id="sketchPad"></div>
+
+  <script>
+    const sketchPad = document.getElementById('sketchPad');
+    const resetButton = document.getElementById('reset');
+    const gridSizeInput = document.getElementById('gridSize');
+    const applyButton = document.getElementById('apply');
+
+    function createGrid(size) {
+      sketchPad.innerHTML = ''; // Clear the existing grid
+      sketchPad.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+      sketchPad.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+      for (let i = 0; i < size * size; i++) {
+        const gridItem = document.createElement('div');
+        gridItem.classList.add('grid-item');
+        sketchPad.appendChild(gridItem);
+      }
+    }
+
+    function resetGrid() {
+      const gridItems = document.querySelectorAll('.grid-item');
+      gridItems.forEach(item => {
+        item.style.backgroundColor = '#fff';
+      });
+    }
+
+    function applyGridSize() {
+      const size = parseInt(gridSizeInput.value);
+      if (size >= 1 && size <= 100) {
+        createGrid(size);
+      } else {
+        alert('Please enter a grid size between 1 and 100.');
+      }
+    }
+
+    // Event Listeners
+    resetButton.addEventListener('click', resetGrid);
+    applyButton.addEventListener('click', applyGridSize);
+
+    // Initialize with a default grid size
+    createGrid(16);
+  </script>
+</body>
+</html>
